@@ -34,6 +34,12 @@ public class MainActivity extends AppCompatActivity {
         rcView.setLayoutManager(new LinearLayoutManager(this));
         MyDBHelper dbHelper = new MyDBHelper(MainActivity.this);
 
+        arrNotes = dbHelper.fetchNotes();
+        for (int i = 0; i < arrNotes.size(); i++) {
+            arrNotes.get(i).position = i;
+        }
+
+
 
 
 
@@ -62,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                                     adapter.notifyItemInserted(arrNotes.size() - 1);
                                     rcView.scrollToPosition(arrNotes.size() - 1);
                                     dialog.dismiss();
+                                    Toast.makeText(MainActivity.this, "Note added successfully", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(MainActivity.this, "Failed to add note", Toast.LENGTH_SHORT).show();
                                 }

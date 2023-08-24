@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -18,9 +19,13 @@ public class MyDBHelper extends SQLiteOpenHelper {
     private static final String KEY_ID = "id";
     private static final String KEY_TITLE = "Title";
     private static final String KEY_DESCRIPTION = "Description";
+    Context context;
+
     public MyDBHelper(@Nullable Context context) {
-        super(context,DATABASE_NAME,null,DATABASE_VERSION);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -79,6 +84,37 @@ public class MyDBHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
         return arrNotes;
+    }
+
+//    public void updateNote(NotesModel notesModel){
+//        SQLiteDatabase database = this.getWritableDatabase();
+//        ContentValues cv = new ContentValues();
+//        cv.put(KEY_TITLE,notesModel.title);
+//        cv.put(KEY_DESCRIPTION,notesModel.description);
+//        database.update(TABLE_NOTES,cv,KEY_ID+"="+notesModel.id,null);
+//
+//    }
+
+
+    public void updateNote(NotesModel notesModel) {
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_TITLE, notesModel.title);
+        cv.put(KEY_DESCRIPTION, notesModel.description);
+
+        int rowsAffected = database.update(TABLE_NOTES, cv, KEY_ID + "=?", new String[]{String.valueOf(notesModel.id)});
+        if (rowsAffected > 0) {
+            Toast.makeText(context, "Note updated in the database", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Failed to update note in the database", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+    public void deleteContact(int id){
+        SQLiteDatabase database = this.getWritableDatabase();
+        database.delete(TABLE_NOTES,KEY_ID+"=?",new String[]{String.valueOf(id)});
     }
 
 

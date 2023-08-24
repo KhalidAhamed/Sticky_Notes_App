@@ -1,6 +1,7 @@
 package com.example.sticky_notes;
 
 public class NotesModel {
+    public int position;
     int id;
     String title;
     String description;

@@ -59,10 +59,10 @@ public class RecyclerNotesAdapter extends RecyclerView.Adapter<RecyclerNotesAdap
                 EditText edtDes = dialog.findViewById(R.id.edtDes);
                 Button updateBtn = dialog.findViewById(R.id.addBtn);
 
-                
+                // Get the current NotesModel at the clicked position
                 NotesModel currentNote = arrNotes.get(position);
 
-
+                // Populate the dialog fields with existing data
                 edtTitle.setText(currentNote.title);
                 edtDes.setText(currentNote.description);
                 updateBtn.setText("Update");
